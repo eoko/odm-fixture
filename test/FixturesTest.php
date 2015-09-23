@@ -19,9 +19,8 @@ use Eoko\ODM\Fixture\Test\ClassLoader\User;
 use Eoko\ODM\Fixture\Test\Entity\UserEntity;
 use Zend\ServiceManager\ServiceManager;
 
-class TestFixtures extends \PHPUnit_Framework_TestCase
+class FixturesTest extends \PHPUnit_Framework_TestCase
 {
-
 
     public function testLoad()
     {
@@ -65,8 +64,13 @@ class TestFixtures extends \PHPUnit_Framework_TestCase
 
         $exectuor = new Executor($dm, $config);
 
-        $this->assertTrue($exectuor->load($exectuor->getFixtures()->first()));
-        $this->assertTrue($exectuor->unload($exectuor->getFixtures()->first()));
+        $fixtures = $exectuor->getFixtures();
+
+        while($fixtures) {
+            $fixture = array_pop($fixtures);
+            $this->assertEquals(1, $exectuor->load($fixture));
+            $this->assertEquals(1, $exectuor->unload($fixture));
+        }
 
         $this->assertTrue($exectuor->execute());
         $this->assertTrue($exectuor->purge());
