@@ -28,8 +28,13 @@ class ExecutorFactory implements FactoryInterface {
         $dm = $serviceLocator->get('Eoko\ODM\DocumentManager');
 
         $config = $serviceLocator->get('Config');
-        $loaders = $config['eoko']['odm']['fixtures']['loaders'];
-
+        
+        if(!isset($config['eoko']['odm']['fixtures']['loaders'])) {
+            $loaders = $config['eoko']['odm']['fixtures']['loaders'];
+        } else {
+            $loader = [];
+        }
+        
         $logger = null;
 
         if(isset($config['eoko']['odm']['fixtures']['logger'])) {
