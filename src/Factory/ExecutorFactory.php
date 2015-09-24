@@ -29,7 +29,7 @@ class ExecutorFactory implements FactoryInterface {
 
         $config = $serviceLocator->get('Config');
         
-        if(!isset($config['eoko']['odm']['fixtures']['loaders'])) {
+        if(isset($config['eoko']['odm']['fixtures']['loaders'])) {
             $loaders = $config['eoko']['odm']['fixtures']['loaders'];
         } else {
             $loaders = [];
