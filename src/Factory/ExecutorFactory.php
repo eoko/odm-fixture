@@ -32,7 +32,7 @@ class ExecutorFactory implements FactoryInterface {
         if(!isset($config['eoko']['odm']['fixtures']['loaders'])) {
             $loaders = $config['eoko']['odm']['fixtures']['loaders'];
         } else {
-            $loader = [];
+            $loaders = [];
         }
         
         $logger = null;
