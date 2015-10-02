@@ -10,6 +10,7 @@ use Eoko\ODM\DocumentManager\Repository\DocumentRepository;
 use Eoko\ODM\Fixture\CollectionFixture;
 use Eoko\ODM\Fixture\Fixture\EntityFixture;
 use Eoko\ODM\Fixture\Fixture\FixtureInterface;
+use Eoko\ODM\Fixture\Fixture\SyncFixtureInterface;
 use Eoko\ODM\Fixture\Loader\ClassLoader;
 use Psr\Log\LoggerInterface;
 use Zend\Log\Logger;
@@ -223,6 +224,28 @@ class Executor
             }
         }
         return true;
+    }
+
+    public function loadSync(SyncFixtureInterface $fixture) {
+
+        $result = $this->load($fixture);
+        if($result === 1) {
+            while($fixture->checkCreate($this->dm)) {
+                sleep(1);
+            }
+        }
+        return $result;
+    }
+
+    public function unLoadSync(SyncFixtureInterface $fixture) {
+
+        $result = $this->unload($fixture);
+        if($result === 1) {
+            while($fixture->checkDelete($this->dm)) {
+                sleep(1);
+            }
+        }
+        return $result;
     }
 
     /**
