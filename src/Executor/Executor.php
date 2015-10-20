@@ -156,7 +156,9 @@ class Executor
             $this->error($e->getMessage());
             if ($e->getAwsErrorCode() === 'ResourceInUseException') {
                 return 0;
-            } else {
+            } elseif ($e->getAwsErrorCode() === 'LimitExceededException') {
+                return 0;
+             } else {
                 return -1;
             }
         }
@@ -264,6 +266,8 @@ class Executor
             if ($e->getAwsErrorCode() === 'ResourceInUseException') {
                 return 0;
             } elseif ($e->getAwsErrorCode() === 'ResourceNotFoundException' && $fixture instanceof EntityFixture) {
+                return 0;
+            } elseif ($e->getAwsErrorCode() === 'LimitExceededException') {
                 return 0;
             } else {
                 return -1;
